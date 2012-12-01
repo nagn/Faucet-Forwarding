@@ -1,7 +1,7 @@
 Faucet-Forwarding
 =================
 
-A small wrapper for miniupnp for automatic port redirection
+A small wrapper for Gang Garrison 2 of miniupnpc for automatic port redirection
 
 Dependencies
 ------------
@@ -21,3 +21,9 @@ In the configuration I have the following linked (In this order)
 -lws2_32
 -lminiupnpc
 -liphlpapi
+
+Calling
+------------
+When calling the individual functions, it is important to make sure that you are always passing
+strings to upnp_forward_port, and upnp_release_port. For some (odd) reason Game Maker does no type-checking
+when dealing with extensions

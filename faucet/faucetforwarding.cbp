@@ -39,7 +39,7 @@
 			<Add option="-liphlpapi" />
 			<Add library="libws2_32.a" />
 			<Add library="libminiupnpc.a" />
-			<Add directory="miniupnpc_libs" />
+			<Add directory="miniupnpc_lib" />
 		</Linker>
 		<Unit filename="dllapi.cpp" />
 		<Extensions>

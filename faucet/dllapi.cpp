@@ -56,8 +56,6 @@ DLLEXPORT double upnp_discover(double delay){
 	  || (devlist = upnpDiscover(delay, multicastif, minissdpdpath,
 	                             0/*sameport*/, ipv6, &error)))
 	{
-        devlist = upnpDiscover(delay, multicastif, minissdpdpath,
-                                     0/*sameport*/, ipv6, &error);
         if(devlist)
         {
             printf("List of UPNP devices found on the network :\n");

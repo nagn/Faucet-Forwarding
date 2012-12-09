@@ -15,6 +15,7 @@ char lanaddr[64];	/* my ip address on the LAN */
 const char * rootdescurl = 0;
 const char * multicastif = 0;
 const char * minissdpdpath = 0;
+const char * description = "Faucet Forwarding Extension";
 int retcode = 0;
 int error = 0;
 std::stringstream output_error_string;
@@ -42,6 +43,10 @@ const char * protofix(const char * proto)
 	if(b)
 		return proto_udp;
 	return 0;
+}
+DLLEXPORT double upnp_set_description(const char * desc){
+        description = desc;
+        return(0);
 }
 DLLEXPORT double upnp_discover(double delay){
     //initialize winsock
@@ -131,7 +136,7 @@ DLLEXPORT double upnp_forward_port(const char * iport,
 		printf("GetExternalIPAddress failed.\n");
     }
 	r = UPNP_AddPortMapping(urls.controlURL, data.first.servicetype,
-	                        eport, iport, iaddr, 0, proto, 0, leaseDuration);
+	                        eport, iport, iaddr, description, proto, 0, leaseDuration);
 	if(r!=UPNPCOMMAND_SUCCESS){
 	    output_error_string << "AddPortMapping(" << eport << "," << iport << "," << iaddr << ") failed with code " << r << "(" << strupnperror(r) << ")" << std::endl;
 		printf(output_error_string.str().c_str());

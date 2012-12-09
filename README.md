@@ -30,6 +30,10 @@ when dealing with extensions
 
 Functions
 ------------
+upnp_set_description(string description)
+Sets a description to be registered once upnp_forward_port is called. Note that this must be set before upnp_forward_port
+is called, otherwise the default "Faucet Forwarding Extension" will be used instead.
+
 upnp_discover(double delay)
 Search for Internet Gateway Devices on the network and attempt to see if they support universal
 plug and play. This must be called first before attempting to forward a port. Returns 0 if successful,

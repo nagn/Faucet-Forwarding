@@ -1,14 +1,11 @@
 #include <winsock2.h>
 #include <stdio.h>
-#include <stdlib.h>
 #include <miniwget.h>
 #include <miniupnpc.h>
 #include <upnpcommands.h>
 #include <upnperrors.h>
 #include <iostream>
-#include <typeinfo>
 #include <sstream>
-#include <string>
 #define DLLEXPORT extern "C" __declspec(dllexport)
 struct UPNPDev * devlist = 0;
 char lanaddr[64];	/* my ip address on the LAN */
@@ -119,6 +116,7 @@ DLLEXPORT double upnp_forward_port(const char * iport,
 	char intPort[6];
 	char duration[16];
 	int r;
+	output_error_string.str("");
 
 	proto = protofix(proto);
 	if(!proto)
@@ -179,9 +177,6 @@ DLLEXPORT const char * upnp_error_string(double error_code){
         case (0):
             error_string << "";
             break;
-        case (1):
-            error_string << "";
-            break;
         case (2):
             error_string << "Unable to start winsock!" << std::endl;
             break;
@@ -192,28 +187,13 @@ DLLEXPORT const char * upnp_error_string(double error_code){
            error_string << "No IGD UPnP Device found on the network !" << std::endl;
            break;
         case (5):
-           error_string << "Invalid protocal" << std::endl;
-           break;
+            error_string << "Invalid protocal" << std::endl;
+            break;
         case (6):
             error_string << output_error_string.str() << std::endl;
             break;
         case (7):
             error_string << output_error_string.str() <<  std::endl;
-            break;
-        case (8):
-            error_string << "AddPortMapping failed! Action not authorized (606)" << std::endl;
-            break;
-        case (9):
-            error_string << "AddPortMapping failed! ConflictInMappingEntry (718)" << std::endl;
-            break;
-        case (10):
-            error_string << "AddPortMapping failed! OnlyPermanentLeasesSupported (725)" << std::endl;
-            break;
-        case (11):
-            error_string << "AddPortMapping failed! NoPortMapsAvailable (728)" << std::endl;
-            break;
-        case (12):
-            error_string << "AddPortMapping failed! ConflictWithOtherMechanisms (729)" << std::endl;
             break;
         default:
            error_string << "Undefined error code! Error code: " << error_code << std:: endl;
@@ -229,18 +209,18 @@ DLLEXPORT double dllShutdown() {
     FreeUPNPUrls(&urls);
 	return (0);
 }
-/*
+#ifdef DEBUG
 int main(void){
     double error_code;
     error_code = upnp_discover(2000);
-    if (error_code <= 0) {
+    if (error_code == 0) {
         error_code = upnp_forward_port("8191", "8191", "TCP", "0");
         upnp_release_port("8191", "TCP");
     }
     printf(upnp_error_string(error_code));
-
-    Sleep(5000);
+    printf("PRESS ENTER TO CONTINUE...");
+    std::cin.ignore();
 
     return (0);
 }
-*/
+#endif
